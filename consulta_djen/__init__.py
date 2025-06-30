@@ -5,6 +5,7 @@ from typing import Generator, TypeVar, Union
 
 import openpyxl
 import pandas as pd
+import pytz
 import requests
 
 from consulta_djen.interfaces import JsonCNJ
@@ -16,14 +17,15 @@ from consulta_djen.interfaces.partes import (
 from consulta_djen.interfaces.publicacao import JSONPublicacoes
 
 
-def convertToQueryString(query):
+def convertToQueryString(query) -> str:
     return "&".join(f"{key}={value}" for key, value in query.items())
 
 
+today = datetime.now(pytz.timezone("America/Manaus")).strftime("%Y-%m-%d")
 query = {
     "siglaTribunal": "TJAM",
-    "dataDisponibilizacaoInicio": "2025-06-30",
-    "dataDisponibilizacaoFim": "2025-06-30",
+    "dataDisponibilizacaoInicio": today,
+    "dataDisponibilizacaoFim": today,
     "nomeParte": "AMAZONAS DISTRIBUIDORA DE ENERGIA S.A.",
 }
 url = (
@@ -84,9 +86,6 @@ def separar_intimacoes() -> None:
         data.pop("destinatarioadvogados", [])
         data.pop("destinatarios", [])
 
-        # Expressão regular para encontrar e formatar o número do processo
-        # 0600992-42.2023.8.04.3000
-        # 0001221-58.2025.8.04.5400
         nproc = item["numero_processo"]
 
         data["numero_processo"] = (
@@ -143,7 +142,7 @@ def separar_intimacoes() -> None:
     df_partes = pd.DataFrame(partes)
 
     # Salve em Excel ou outro formato conforme necessário
-    with pd.ExcelWriter("resultado.xlsx") as writer:
+    with pd.ExcelWriter(f"Intimaçoes {today}.xlsx") as writer:
         df_publicacoes.to_excel(writer, sheet_name="Publicações", index=False)
         df_advogados.to_excel(writer, sheet_name="Advogados", index=False)
         df_partes.to_excel(writer, sheet_name="Partes", index=False)
