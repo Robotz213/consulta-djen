@@ -1,11 +1,12 @@
-from typing import TypedDict
+from datetime import datetime
+from typing import List, TypedDict
 
 from consulta_djen.interfaces.partes import JSONDestinatariosAdvogados, JsonPartes
 
 
 class JSONPublicacoes(TypedDict):
     id: int
-    data_disponibilizacao: str
+    data_disponibilizacao: str | datetime
     siglaTribunal: str
     tipoComunicacao: str
     nomeOrgao: str
@@ -21,9 +22,9 @@ class JSONPublicacoes(TypedDict):
     hash: str
     status: str
     motivo_cancelamento: str | None
-    data_cancelamento: str | None
-    datadisponibilizacao: str
+    data_cancelamento: str | datetime
+    datadisponibilizacao: str | datetime
     meiocompleto: str
     numeroprocessocommascara: str
-    destinatarios: list[JsonPartes]
-    destinatarioadvogados: list[JSONDestinatariosAdvogados]
+    destinatarios: List[JsonPartes]
+    destinatarioadvogados: List[JSONDestinatariosAdvogados]
