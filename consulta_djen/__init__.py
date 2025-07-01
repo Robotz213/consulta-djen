@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta
+from os import environ
 
 import pandas as pd
 import pytz
+from dotenv import load_dotenv
 
 from consulta_djen.cnj import data_cnj
 from consulta_djen.interfaces.partes import (
@@ -19,6 +21,8 @@ today = datetime.now(pytz.timezone("America/Manaus")).strftime("%Y-%m-%d")
 inicio = (datetime.now(pytz.timezone("America/Manaus")) - timedelta(days=5)).strftime(
     "%Y-%m-%d"
 )
+
+load_dotenv()
 
 
 class PublicacoesDJEN:
@@ -46,6 +50,7 @@ class PublicacoesDJEN:
             "dataDisponibilizacaoInicio": inicio,
             "dataDisponibilizacaoFim": today,
             "nomeParte": nome,
+            "numeroOab": environ.get("OAB"),
         }
         url = (
             "https://comunicaapi.pje.jus.br/api/v1/comunicacao"
