@@ -1,6 +1,6 @@
 import json
 from contextlib import ContextDecorator
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Generator, TypeVar, Union
 
 import openpyxl
@@ -22,9 +22,12 @@ def convertToQueryString(query) -> str:
 
 
 today = datetime.now(pytz.timezone("America/Manaus")).strftime("%Y-%m-%d")
+inicio = (datetime.now(pytz.timezone("America/Manaus")) - timedelta(days=5)).strftime(
+    "%Y-%m-%d"
+)
 query = {
     "siglaTribunal": "TJAM",
-    "dataDisponibilizacaoInicio": today,
+    "dataDisponibilizacaoInicio": inicio,
     "dataDisponibilizacaoFim": today,
     "nomeParte": "AMAZONAS DISTRIBUIDORA DE ENERGIA S.A.",
 }
@@ -87,7 +90,7 @@ def separar_intimacoes() -> None:
         data.pop("destinatarios", [])
 
         nproc = item["numero_processo"]
-
+        item["texto"] = item["texto"].replace("<p>", "").replace("</p>", "\n")
         data["numero_processo"] = (
             f"{nproc[:7]}-{nproc[7:9]}.{nproc[9:13]}.{nproc[13:14]}.{nproc[14:16]}.{nproc[16:20]}"
         )
