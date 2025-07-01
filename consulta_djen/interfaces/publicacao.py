@@ -6,16 +6,16 @@ from consulta_djen.interfaces.partes import JSONDestinatariosAdvogados, JsonPart
 
 class JSONPublicacoes(TypedDict):
     id: int
-    data_disponibilizacao: str | datetime
-    siglaTribunal: str
-    tipoComunicacao: str
-    nomeOrgao: str
-    texto: str
     numero_processo: str
+    tipoComunicacao: str
+    tipoDocumento: str
+    nomeOrgao: str
+    data_disponibilizacao: str | datetime
+    texto: str
+    nomeClasse: str
+    siglaTribunal: str
     meio: str
     link: str | None
-    tipoDocumento: str
-    nomeClasse: str
     codigoClasse: str
     numeroComunicacao: int
     ativo: bool
@@ -23,7 +23,6 @@ class JSONPublicacoes(TypedDict):
     status: str
     motivo_cancelamento: str | None
     data_cancelamento: str | datetime
-    datadisponibilizacao: str | datetime
     meiocompleto: str
     numeroprocessocommascara: str
     destinatarios: List[JsonPartes]
