@@ -43,7 +43,6 @@ class PublicacoesDJEN:
 
     def handle_url(self, nome: str) -> str:
         query = {
-            "siglaTribunal": "TJAM",
             "dataDisponibilizacaoInicio": inicio,
             "dataDisponibilizacaoFim": today,
             "nomeParte": nome,
@@ -58,9 +57,8 @@ class PublicacoesDJEN:
 
     def queue(self) -> None:
         nomes = [
-            "AMAZONAS DISTRIBUIDORA DE ENERGIA S.A",
-            "AMAZONAS ENERGIA S/A",
-            "AMAZONAS DISTRIBUIDORA DE ENERGIA S/A",
+            "AMAZONAS DISTRIBUIDORA DE ENERGIA",
+            "AMAZONAS ENERGIA",
         ]
 
         for nome in nomes:
