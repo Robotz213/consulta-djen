@@ -32,7 +32,7 @@ out_dir.mkdir(exist_ok=True)
 clear()
 
 
-def log_task_exception(task):
+def log_task_exception(task) -> None:
     try:
         task.result()
     except Exception as e:
